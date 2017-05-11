@@ -27,9 +27,21 @@ class Carousel {
         const context = canvas.getContext('2d')
         const img = document.createElement('img')
         console.log(this.imgs)
+        const indicators = []
+        let y = 9*this.h/10,x = this.w/2-this.w/8*(this.imgs.length)/2
+        for(var i = 0;i<this.imgs.length;i++) {
+            indicators.push(new Indicator(x,y,this.w/20))
+            x+=this.w/8
+        }
         var time = 0 ,maxTime = this.interval/(100),initX = 0
         document.body.appendChild(canvas)
         let  draw = () =>{
+          indicators.forEach((indicator)=>{
+              indicator.setActive(false)
+          })
+          const index = Math.floor(Math.abs(this.x)/this.w)
+          console.log(index)
+          indicators[index].setActive(true)
           if(interval!=this.interval  && initX-this.x >= this.w) {
               interval = this.interval
               initX = this.x
@@ -41,10 +53,12 @@ class Carousel {
           context.save()
           context.translate(this.x,0)
           this.imgs.forEach((img,index)=>{
-              context.drawImage(img,index*this.w,0,this.w,this.h)
+              context.drawImage(img,index*this.w,0,this.w,0.8*this.h)
           })
           context.restore()
-
+          indicators.forEach((indicator)=>{
+              indicator.draw(context)
+          })
           if(interval == this.interval) {
               time ++
               if(time == 2 ){

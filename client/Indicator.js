@@ -4,8 +4,8 @@ class Indicator {
         this.y = y
         this.r = r
     }
-    setActive() {
-        this.active = true
+    setActive(active) {
+        this.active = active
     }
     draw(context) {
         if(this.active) {
